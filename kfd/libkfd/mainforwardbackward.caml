@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<caml xmlns="http://www.apple.com/CoreAnimation/1.0">
+  <CALayer allowsEdgeAntialiasing="1" allowsGroupOpacity="1" bounds="0 0 84 84" clearsContext="1" contentsFormat="RGBA8" contentsRect="0.5 0.4736842105263 1 1" hidden="0" masksToBounds="0" name="Root Layer" opaque="0" position="42 42">
+    <backgroundColor opacity="0" value="0 0 0"/>
+    <sublayers>
+      <CALayer id="origin" allowsEdgeAntialiasing="1" allowsGroupOpacity="0" bounds="0 0 0 0" contentsFormat="RGBA8" hidden="0" name="origin" position="42 42" transform="scale(0.32, 0.32, 1)">
+    <sublayers>
+      <CALayer allowsEdgeAntialiasing="1" allowsGroupOpacity="1" bounds="0 0 0 0" contentsFormat="RGBA8" hidden="0" name="controlParent" position="0 0">
+        <sublayers>
+          <CALayer allowsEdgeAntialiasing="1" allowsGroupOpacity="1" bounds="0 0 0 0" contentsFormat="RGBA8" hidden="0" name="symbolorigin" position="0 0">
+        <sublayers>
+          <CALayer allowsEdgeAntialiasing="1" allowsGroupOpacity="1" bounds="0 0 0 0" contentsFormat="RGBA8" hidden="0" name="shapeparent" position="0 0">
+            <sublayers>
+              <CALayer id="#4" allowsEdgeAntialiasing="1" allowsGroupOpacity="1" bounds="0 0 0 0" contentsFormat="RGBA8" hidden="0" name="ffwd0 shape" opacity="1" position="-26 0" transform="">
+            <sublayers>
+              <CALayer allowsEdgeAntialiasing="1" allowsGroupOpacity="1" bounds="0 0 47.9 55.04" contentsFormat="RGBA8" name="arrow" position="4 0">
+                <sublayers>
+                  <CAShapeLayer id="arrow0-tint-shape" fillColor="0.70 0.70 0.70" path="26 0.3 m 28.5 0.3 29.4 0.5 28 0.7 c 26.6 0.9 24.6 0.9 23.5 0.7 c 22.4 0.5 23.5 0.3 26 0.3 c h 32.9 1 m 33.7 1 34 1.3 33.7 1.7 c 33.3 2.2 32.7 2.1 32.2 1.7 c 31.8 1.3 32.1 1 32.9 1 c h 59.5 4 m 61.7 4 65.3 4.6 67.5 5.4 c 69.7 6.1 76.2 9.6 82 13 c 87.8 16.4 93.6 20.1 94.8 21.3 c 96.1 22.5 98.1 25.2 99.1 27.2 c 100.1 29.3 101.3 32.7 101.6 34.7 c 102 36.8 101.7 40.7 101.1 43.5 c 100.4 46.7 98.7 50 96.2 52.9 c 93.7 55.8 88.4 59.6 80 64.3 c 69.1 70.5 66.7 71.5 61.5 71.8 c 56.9 72.2 54.3 71.8 45.5 67.9 c 52 64.3 l 55.6 62.3 59.4 60 60.5 59.1 c 62.4 57.6 62.4 57.6 61 59.3 c 59.6 61.1 59.7 61.1 62.5 60 c 64.2 59.4 70 56.3 75.4 53.2 c 80.9 50.1 86.4 46.1 87.8 44.5 c 89.8 42 90.1 40.8 89.7 37 c 89.3 33.7 88.4 31.8 86.3 30 c 84.8 28.6 78.9 24.9 73.2 21.7 c 67.6 18.6 62.1 16 61 16 c 59.9 16 56.1 14.3 45.9 8.5 c 50.7 6.3 l 53.3 5.1 57.3 4 59.5 4 c h 10.5 5 m 10.8 5 11 5.2 11 5.5 c 11 5.8 10.4 6.3 9.7 6.7 c 8.9 7.23 8.77 7.07 9.3 6.2 c 9.7 5.6 10.3 5 10.5 5 c h 5.5 10 m 5.8 10 6 10.2 6 10.5 c 6 10.8 5.4 11.3 4.7 11.7 c 3.9 12.23 3.77 12.07 4.3 11.2 c 4.7 10.6 5.3 10 5.5 10 c h 61.4 17 m 61.7 17 62.2 17.4 62.5 18 c 62.8 18.5 62.8 19 62.5 19 c 62.2 19 61.7 18.5 61.4 18 c 61.1 17.4 61.1 17 61.4 17 c h 0.3 19.2 m 0.5 19.6 0.5 20.5 0.4 21.2 c 0.3 21.9 0.1 21.6 0.1 20.5 c 0 19.4 0.1 18.8 0.3 19.2 c h 65.4 21 m 65.7 21 66.2 21.4 66.5 22 c 66.8 22.5 66.8 23 66.5 23 c 66.2 23 65.7 22.5 65.4 22 c 65.1 21.4 65.1 21 65.4 21 c h 67.4 24 m 67.7 24 68.2 24.5 68.5 25 c 68.8 25.5 68.8 26 68.5 26 c 68.2 26 67.7 25.5 67.4 25 c 67.1 24.5 67.1 24 67.4 24 c h 70.7 30.2 m 71.2 30.7 71.2 31.3 70.7 31.7 c 70.3 32.2 69.9 31.8 69.9 31 c 69.9 30.2 70.3 29.8 70.7 30.2 c h 71.7 35.5 m 71.9 36.6 71.9 38.6 71.7 40 c 71.5 41.4 71.3 40.5 71.3 38 c 71.3 35.5 71.5 34.4 71.7 35.5 c h 70.7 45.2 m 71.2 45.7 71.2 46.3 70.7 46.7 c 70.3 47.2 69.9 46.8 69.9 46 c 69.9 45.2 70.3 44.8 70.7 45.2 c h 67.5 52 m 67.8 52 68 52.2 68 52.5 c 68 52.8 67.4 53.3 66.8 53.7 c 65.93 54.23 65.77 54.07 66.3 53.2 c 66.7 52.6 67.3 52 67.5 52 c h 0.7 55.2 m 1.2 55.7 1.2 56.3 0.7 56.7 c 0.3 57.2 -0.1 56.8 -0.1 56 c -0.1 55.2 0.3 54.8 0.7 55.2 c h 10.4 70 m 10.7 70 11.2 70.5 11.5 71 c 11.8 71.5 11.8 72 11.5 72 c 11.2 72 10.7 71.5 10.4 71 c 10.1 70.5 10.1 70 10.4 70 c h 39.5 71 m 39.8 71 40 71.2 40 71.5 c 40 71.8 39.4 72.3 38.8 72.7 c 37.93 73.23 37.77 73.07 38.3 72.2 c 38.7 71.6 39.3 71 39.5 71 c h 17.9 74 m 18.7 74 19 74.3 18.7 74.7 c 18.3 75.2 17.7 75.2 17.3 74.7 c 16.8 74.3 17.1 74 17.9 74 c h 26 75.3 m 29 75.3 30.2 75.5 28.5 75.7 c 26.9 75.9 24.4 75.9 23 75.7 c 21.6 75.5 23 75.3 26 75.3 c h" allowsEdgeAntialiasing="1" allowsGroupOpacity="1" bounds="0 0 47.9 55.04" contentsFormat="RGBA8" name="arrow0-tint-shape" position="30 12">
+                <strokeColor opacity="0" value="0 0 0"/>
+                  </CAShapeLayer>
+                </sublayers>
+              </CALayer>
+            </sublayers>
+              </CALayer>
+              <CALayer id="#3" allowsEdgeAntialiasing="1" allowsGroupOpacity="1" bounds="0 0 0 0" contentsFormat="RGBA8" hidden="0" name="ffwd1 shape" opacity="1" position="20 0" transform="">
+            <sublayers>
+              <CALayer allowsEdgeAntialiasing="1" allowsGroupOpacity="1" bounds="0 0 47.9 55.04" contentsFormat="RGBA8" name="arrow" position="4 0">
+                <sublayers>
+                  <CAShapeLayer id="arrow1-tint-shape" fillColor="1 1 1" path="26.5 1.2 m 33.1 1.5 34.3 1.9 45 7.9 c 51.3 11.4 58.3 15.6 60.5 17.1 c 62.7 18.7 65.8 22.1 67.5 24.7 c 69.8 28.5 70.5 31 70.9 36.5 c 71.3 42.5 71 44.3 68.8 49 c 67.3 52.2 64.6 55.8 62.4 57.6 c 60.2 59.3 53.1 63.7 46.5 67.5 c 35 74.1 34.2 74.4 27 74.8 c 20.3 75.1 18.9 74.9 14 72.3 c 10.9 70.7 7.1 67.5 5.2 65.2 c 3.5 62.9 1.6 59.3 1 57.3 c 0.5 55.2 0 46.8 0 38.5 c 0 28.4 0.4 21.9 1.4 18.5 c 2.3 15.3 4.3 12 6.9 9.3 c 9.2 6.9 12.9 4.1 15.3 3 c 18.5 1.4 21.1 1 26.5 1.2 c h 13.7 20.2 m 12.3 22.9 12 26.1 12 37.8 c 12 49.2 12.3 52.7 13.8 55.7 c 14.7 57.7 16.9 60.2 18.5 61.2 c 20.2 62.2 23.4 63 25.8 63 c 29.2 63 32.4 61.6 42.6 55.8 c 50.9 51 55.9 47.5 57.1 45.5 c 58.2 43.8 59 40.7 59 38.3 c 59 35.9 58.3 32.8 57.5 31.3 c 56.6 29.7 54.9 27.9 53.7 27.1 c 52.5 26.3 46.5 22.8 40.5 19.3 c 32 14.4 28.6 13 25.5 13 c 23.2 13 20.2 13.9 18.5 15 c 16.9 16.1 14.7 18.4 13.7 20.2 c h
+" allowsEdgeAntialiasing="1" allowsGroupOpacity="1" bounds="0 0 47.9 55.04" contentsFormat="RGBA8" name="arrow1-tint-shape" position="-10 12">
+                <strokeColor opacity="0" value="0 0 0"/>
+                  </CAShapeLayer>
+                </sublayers>
+              </CALayer>
+            </sublayers>
+              </CALayer>
+            </sublayers>
+          </CALayer>
+        </sublayers>
+          </CALayer>
+        </sublayers>
+      </CALayer>
+      <CALayer allowsEdgeAntialiasing="1" allowsGroupOpacity="1" bounds="0 0 260 260" contentsFormat="RGBA8" name="ffwdHit" position="0 0"/>
+    </sublayers>
+    <scriptComponents/>
+      </CALayer>
+    </sublayers>
+  </CALayer>
+</caml>

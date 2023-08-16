@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<caml xmlns="http://www.apple.com/CoreAnimation/1.0">
+  <CALayer allowsEdgeAntialiasing="1" allowsGroupOpacity="1" bounds="0 0 40 40" contentsFormat="RGBA8" hidden="0" name="volglyph" position="11.5 13.5" transform="scale(0.6, 0.6, 0.6)">
+    <backgroundColor opacity="0" value="0.9797 0.06809 0.3118 0"/>
+    <sublayers>
+      <CATransformLayer allowsEdgeAntialiasing="1" allowsGroupOpacity="1" bounds="0 0 50 50" contentsFormat="RGBA8" geometryFlipped="1" name="volume" position="25.700000762939 22" transform="scale(1, 1, 1)">
+	<sublayers>
+	  <CATransformLayer id="#2" allowsEdgeAntialiasing="1" allowsGroupOpacity="1" bounds="0 0 50 50" contentsFormat="RGBA8" name="vol1" position="25 25" transform="">
+	    <sublayers>
+	      <CATransformLayer id="#10" allowsEdgeAntialiasing="1" allowsGroupOpacity="1" bounds="0 0 50 50" contentsFormat="RGBA8" name="vol2" position="25 25" transform="">
+		<sublayers>
+		  <CAShapeLayer id="#4" fillColor="1 1 1" lineWidth="0" path="19.17 0 m 19.9 -0.04 21.67 1.2 25.22 4.24 c 28 6.56 30.94 9.08 31.79 9.84 c 33.08 11 33.28 11.4 33.16 12.68 c 33.08 14.12 32.79 14.4 21.79 22.64 c 21.67 30.6 l 21.59 37.52 21.47 38.68 20.86 39.32 c 20.5 39.72 19.73 40 19.17 40 c 18.61 40 17.96 39.84 17.72 39.68 c 17.48 39.52 17.07 39 16.79 38.52 c 16.55 37.96 16.35 35.52 16.35 32.4 c 16.35 29.52 16.27 27.2 16.15 27.2 c 16.03 27.2 14.7 28.2 13.12 29.4 c 11.43 30.72 9.9 31.6 9.29 31.6 c 8.73 31.6 8.01 31.48 7.6 31.32 c 7.24 31.12 6.8 30.64 6.63 30.2 c 6.47 29.76 6.39 29.04 6.51 28.6 c 6.59 28.16 8.57 26.32 10.91 24.52 c 13.25 22.68 15.42 21.12 15.74 21 c 16.27 20.84 16.35 19.44 16.35 11.6 c 16.35 5.44 16.51 2.12 16.79 1.52 c 17.07 1 17.48 0.48 17.72 0.32 c 17.96 0.16 18.61 0 19.17 0 c h 21.99 16 m 25.42 13.36 26.47 12.48 26.47 12.36 c 26.51 12.24 25.5 11.28 24.29 10.24 c 22.07 8.36 l 21.99 16 l h" allowsEdgeAntialiasing="1" allowsGroupOpacity="1" anchorPoint="9.5 0.5" bounds="0 0 1 15" contentsFormat="RGBA8" name="low-wave" opacity="1" position="23.5 25" transform=""/>
+		  <CAShapeLayer id="#3" fillColor="1 1 1" lineWidth="0" path="26.39 12.4 m 26.39 12.72 26.55 12.88 26.71 12.72 c 26.87 12.52 26.87 12.28 26.71 12.08 c 26.55 11.92 26.39 12.08 26.39 12.4 c h" allowsEdgeAntialiasing="1" allowsGroupOpacity="1" anchorPoint="13.5 0.5" bounds="0 0 1 15" contentsFormat="RGBA8" name="mid-wave" opacity="0.3" position="27.5 25" transform=""/>
+		  <CAShapeLayer id="#1" fillColor="1 1 1" lineWidth="0" path="7.28 10.72 m 6.88 11.12 6.55 11.88 6.59 12.44 c 6.63 12.96 6.88 13.68 7.16 14.04 c 7.44 14.4 9.5 15.92 11.71 17.4 c 13.93 18.92 15.87 20.36 16.07 20.56 c 16.23 20.8 16.31 19.48 16.27 17.64 c 16.15 14.28 l 11.15 10.96 9.34 9.96 8.85 10 c 8.37 10 7.68 10.32 7.28 10.72 c h" allowsEdgeAntialiasing="1" allowsGroupOpacity="1" anchorPoint="16.5 0.5" bounds="0 0 1 15" contentsFormat="RGBA8" hidden="0" name="high-wave" opacity="0.3" position="30.5 25" transform=""/>
+        <CAShapeLayer id="#1" fillColor="1 1 1" lineWidth="0" path="33.32 12.6 m 33.32 13.04 33.4 13.16 33.44 12.88 c 33.48 12.6 33.48 12.24 33.4 12.08 c 33.32 11.92 33.28 12.16 33.32 12.6 c h" allowsEdgeAntialiasing="1" allowsGroupOpacity="1" anchorPoint="16.5 0.5" bounds="0 0 1 15" contentsFormat="RGBA8" hidden="0" name="high-wave" opacity="0.3" position="30.5 25" transform=""/>
+        <CAShapeLayer id="#1" fillColor="1 1 1" lineWidth="0" path="25.18 20.36 m 25.3 20.52 26.95 21.72 28.84 23 c 30.74 24.28 32.51 25.6 32.79 25.96 c 33.08 26.32 33.28 27.08 33.28 27.72 c 33.28 28.6 32.35 29.6 27.63 33.6 c 24.53 36.24 21.91 38.4 21.79 38.4 c 21.67 38.4 21.55 34.92 21.39 22.88 c 23.16 21.48 l 24.13 20.68 25.06 20.2 25.18 20.36 c h 21.99 31.6 m 24.33 29.8 25.38 28.92 25.82 28.44 c 26.26 27.96 26.55 27.56 26.43 27.48 c 26.3 27.4 25.26 26.68 24.09 25.88 c 21.99 24.4 l 21.99 31.6 l h" allowsEdgeAntialiasing="1" allowsGroupOpacity="1" anchorPoint="16.5 0.5" bounds="0 0 1 15" contentsFormat="RGBA8" hidden="0" name="high-wave" opacity="0.3" position="30.5 25" transform=""/>
+		</sublayers>
+	      </CATransformLayer>
+	    </sublayers>
+	  </CATransformLayer>
+	</sublayers>
+      </CATransformLayer>
+    </sublayers>
+	</CALayer>
+</caml>
