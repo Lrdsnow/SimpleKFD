@@ -9,7 +9,7 @@
 #define fun_h
 
 
-void do_fun(char** enabledTweaks, int numTweaks);
+void do_fun(char** enabledTweaks, int numTweaks, int res_y, int res_x);
 void backboard_respring(void);
 void respring(void);
 #endif /* fun_h */

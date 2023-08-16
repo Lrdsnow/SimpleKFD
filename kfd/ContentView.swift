@@ -16,6 +16,9 @@ struct ContentView: View {
     private let kwriteMethodOptions = ["dup", "sem_open"]
     @State private var kwriteMethod = 1
     
+    @State private var res_y = 2796
+    @State private var res_x = 1290
+    
     @State private var enableHideDock = false
     @State private var enableCCTweaks = false
     @State private var enableLSTweaks = false
@@ -151,13 +154,13 @@ struct ContentView: View {
                                 var cTweaks: [UnsafeMutablePointer<CChar>?] = tweaks.map { strdup($0) }
                                 cTweaks.append(nil)
                                 cTweaks.withUnsafeMutableBufferPointer { buffer in
-                                    do_fun(buffer.baseAddress, Int32(buffer.count - 1))
+                                    do_fun(buffer.baseAddress, Int32(buffer.count - 1), res_y, res_x)
                                 }
                                 cTweaks.forEach { free($0) }
                                 do_kclose()
                                 backboard_respring()
                             }.frame(minWidth: 0, maxWidth: .infinity)
-                            .foregroundColor(kfd == 0 ? .purple : .purple.opacity(0.5))
+                            .foregroundColor(.purple)
                         
                     }
                     .listRowBackground(Color.clear)
@@ -176,7 +179,7 @@ struct ContentView: View {
         }
         
         private var settingsView: some View {
-            SettingsView(puafPagesIndex: $puafPagesIndex, puafMethod: $puafMethod, kreadMethod: $kreadMethod, kwriteMethod: $kwriteMethod)
+            SettingsView(puafPagesIndex: $puafPagesIndex, puafMethod: $puafMethod, kreadMethod: $kreadMethod, kwriteMethod: $kwriteMethod, res_y: $res_y, res_x: $res_x)
                 .navigationBarTitle("Settings")
         }
     
@@ -222,6 +225,8 @@ struct SettingsView: View {
     @Binding var puafMethod: Int
     @Binding var kreadMethod: Int
     @Binding var kwriteMethod: Int
+    @Binding var res_y: Int
+    @Binding var res_x: Int
 
     private let puafPagesOptions = [16, 32, 64, 128, 256, 512, 1024, 2048]
     private let puafMethodOptions = ["physpuppet", "smith"]
@@ -230,7 +235,7 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
-            Section(header: Text("Settings")) {
+            Section(header: Text("Exploit Settings")) {
                 Picker("puaf pages:", selection: $puafPagesIndex) {
                     ForEach(0 ..< puafPagesOptions.count, id: \.self) {
                         Text(String(self.puafPagesOptions[$0]))
@@ -255,6 +260,14 @@ struct SettingsView: View {
                     }
                 }
             }
+            
+            Section(header: Text("Tweak Settings")) {
+                Text("Resolution Width:")
+                TextField("Resolution Width", value: $res_x, formatter: NumberFormatter())
+                Text("Resolution Height:")
+                TextField("Resolution Height", value: $res_y, formatter: NumberFormatter())
+            }
+            
             Section(header: Text("Extras")) {
                 Button(action: {
                     respring()
@@ -263,7 +276,7 @@ struct SettingsView: View {
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.red)
+                    .background(.purple)
                     .cornerRadius(10)
                 }
                 
@@ -274,7 +287,7 @@ struct SettingsView: View {
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.red)
+                    .background(.purple)
                     .cornerRadius(10)
                 }
             }

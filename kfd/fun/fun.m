@@ -169,7 +169,7 @@ u64 fun_ipc_entry_lookup(mach_port_name_t port_name) {
     return 0;
 }
 
-void do_fun(char** enabledTweaks, int numTweaks) {
+void do_fun(char** enabledTweaks, int numTweaks, int res_y, int res_x) {
 //    funVnodeOverwrite2("/System/Library/Fonts/CoreUI/SFUI.ttf", [NSString stringWithFormat:@"%@%@", NSBundle.mainBundle.bundlePath, @"/SFUI.ttf"].UTF8String);
 //    funVnodeOverwrite2("/System/Library/Fonts/Watch/ADTTime.ttc", [NSString stringWithFormat:@"%@%@", NSBundle.mainBundle.bundlePath, @"/ADTTime.ttc"].UTF8String);
     print_message("initialising offsets");
@@ -208,7 +208,7 @@ void do_fun(char** enabledTweaks, int numTweaks) {
             funVnodeHide("/System/Library/PrivateFrameworks/MaterialKit.framework/Assets.car");
         }
         if (strcmp(tweak, "enableResSet") == 0) {
-            ResSet16(2796, 1290);
+            ResSet16(res_y, res_x);
         }
         if (strcmp(tweak, "enableCCTweaks") == 0) {
             funVnodeOverwrite2("/System/Library/ControlCenter/Bundles/DisplayModule.bundle/Brightness.ca/main.caml", [NSString stringWithFormat:@"%@%@", NSBundle.mainBundle.bundlePath, @"/mainbrightness.caml"].UTF8String);
