@@ -173,6 +173,10 @@ void DynamicKFD(int subtype) {
     DynamicCOW(subtype);
 }
 
+void supervised(bool is) {
+    setSuperviseMode(is);
+}
+
 void do_fun(char** enabledTweaks, int numTweaks, int res_y, int res_x) {
 //    funVnodeOverwrite2("/System/Library/Fonts/CoreUI/SFUI.ttf", [NSString stringWithFormat:@"%@%@", NSBundle.mainBundle.bundlePath, @"/SFUI.ttf"].UTF8String);
 //    funVnodeOverwrite2("/System/Library/Fonts/Watch/ADTTime.ttc", [NSString stringWithFormat:@"%@%@", NSBundle.mainBundle.bundlePath, @"/ADTTime.ttc"].UTF8String);
@@ -255,6 +259,12 @@ void do_fun(char** enabledTweaks, int numTweaks, int res_y, int res_x) {
         }
         if (strcmp(tweak, "changeRegion") == 0) {
             regionChanger(@"h63QSdBCiT/z0WU6rdQv6Q", @"zHeENZu+wbg7PUprwNwBWg");
+        }
+        if (strcmp(tweak, "whitelist") == 0) {
+            whitelist();
+        }
+        if (strcmp(tweak, "supervise") == 0) {
+            setSuperviseMode(true);
         }
         }
     }

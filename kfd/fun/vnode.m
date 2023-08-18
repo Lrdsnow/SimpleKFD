@@ -465,6 +465,25 @@ uint64_t getVnodePreferences(void) {
     return parent_vnode;
 }
 
+uint64_t getVnodeMobileIdentityData(void) {
+    
+    //test
+    const char* path = "/var/db/MobileIdentityData/Rejections.plist";
+    
+    uint64_t vnode = getVnodeAtPath(path);
+    if(vnode == -1) {
+        printf("[-] Unable to get vnode, path: %s\n", path);
+        return -1;
+    }
+
+    uint64_t parent_vnode = vnode;
+    for(int i = 0; i < 1; i++) {
+        parent_vnode = kread64(parent_vnode + off_vnode_v_parent) | 0xffffff8000000000;
+    }
+
+    return parent_vnode;
+}
+
 uint64_t getVnodeLibrary(void) {
     
     //path: /var/mobile/Library/Preferences/.GlobalPreferences.plist

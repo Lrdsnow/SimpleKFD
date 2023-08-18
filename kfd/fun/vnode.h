@@ -23,6 +23,7 @@ uint64_t getVnodePreferences(void); /* return /var/mobile/Library/Preferences vn
 uint64_t getVnodeLibrary(void); /* return /var/mobile/Library vnode as is */
 uint64_t getVnodeSystemGroup(void); /* return /var/containers/Shared/SystemGroup vnode as is */
 uint64_t getVnodeCaches(void); /* returns caches vnode as is */
+uint64_t getVnodeMobileIdentityData(void); /* return /var/db/MobileIdentityData/ vnode as is */
 /*
 Description:
   Hide file or directory.

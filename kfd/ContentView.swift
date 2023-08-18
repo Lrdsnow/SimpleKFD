@@ -34,7 +34,13 @@ struct ContentView: View {
     @State private var enableCustomSysColors = false
     @State private var enableDynamicIsland = false
     @State private var changeRegion = false
-
+    @State private var whitelist = false
+    @State private var supervise = false
+    
+    init() {
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor(red: 0.745, green: 0.431, blue: 0.902, alpha: 1.0)]
+    }
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -43,24 +49,26 @@ struct ContentView: View {
                         // Hide Homebar
                         Toggle(isOn: $enableHideHomebar) {
                             HStack(spacing: 20) {
-                                Image(systemName: enableHideHomebar ? "rectangle.grid.1x2.fill" : "rectangle.grid.1x2")
+                                Image(systemName: enableHideHomebar ? "eye.slash.circle.fill" : "eye.circle")
                                 .foregroundColor(.purple)
                                 .imageScale(.large)
                                 Text("Hide Home Bar").font(.headline)
                             }
                         }.frame(minWidth: 0, maxWidth: .infinity)
                         .foregroundColor(.purple)
+                        .tint(.purple)
 
                         // Hide Dock
                         Toggle(isOn: $enableHideDock) {
                             HStack(spacing: 20) {
-                                Image(systemName: enableHideDock ? "eye.slash" : "eye")
+                                Image(systemName: enableHideDock ? "eye.slash.circle.fill" : "eye.circle")
                                     .foregroundColor(.purple)
                                     .imageScale(.large)
                             Text("Hide Dock").font(.headline)
                             }
                         }.frame(minWidth: 0, maxWidth: .infinity)
                         .foregroundColor(.purple)
+                        .tint(.purple)
                         
                         // Resolution
                         Toggle(isOn: $enableResSet) {
@@ -72,6 +80,7 @@ struct ContentView: View {
                             }
                         }.frame(minWidth: 0, maxWidth: .infinity)
                         .foregroundColor(.purple)
+                        .tint(.purple)
                         
                         // Custom Font
                         Toggle(isOn: $enableCustomFont) {
@@ -83,61 +92,67 @@ struct ContentView: View {
                             }
                         }.frame(minWidth: 0, maxWidth: .infinity)
                         .foregroundColor(.purple)
+                        .tint(.purple)
                         
                         // CC Tweaks
                         Toggle(isOn: $enableCCTweaks) {
                             HStack(spacing: 20) {
-                                Image(systemName: enableCCTweaks ? "pencil.circle.fill" : "pencil.circle")
+                                Image(systemName: enableCCTweaks ? "square.circle.fill" : "square.circle")
                                     .foregroundColor(.purple)
                                     .imageScale(.large)
                             Text("Custom CC Icons").font(.headline)
                             }
                         }.frame(minWidth: 0, maxWidth: .infinity)
                         .foregroundColor(.purple)
+                        .tint(.purple)
                         
                         // LS Tweaks
                         Toggle(isOn: $enableLSTweaks) {
                             HStack(spacing: 20) {
-                                Image(systemName: enableLSTweaks ? "pencil.circle.fill" : "pencil.circle")
+                                Image(systemName: enableLSTweaks ? "square.circle.fill" : "square.circle")
                                     .foregroundColor(.purple)
                                     .imageScale(.large)
                             Text("Custom Lockscreen Icons").font(.headline)
                             }
                         }.frame(minWidth: 0, maxWidth: .infinity)
                         .foregroundColor(.purple)
+                        .tint(.purple)
                         
                         // Hide LS Icons
                         Toggle(isOn: $hideLSIcons) {
                             HStack(spacing: 20) {
-                                Image(systemName: hideLSIcons ? "pencil.circle.fill" : "pencil.circle")
-                                    .foregroundColor(.purple)
-                                    .imageScale(.large)
+                                Image(systemName: hideLSIcons ? "eye.slash.circle.fill" : "eye.circle")
+                                .foregroundColor(.purple)
+                                .imageScale(.large)
                             Text("Hide Lockscreen Icons").font(.headline)
                             }
                         }.frame(minWidth: 0, maxWidth: .infinity)
                         .foregroundColor(.purple)
+                        .tint(.purple)
                         
                         // Hide Notifications
                         Toggle(isOn: $enableHideNotifs) {
                             HStack(spacing: 20) {
-                                Image(systemName: enableHideNotifs ? "pencil.circle.fill" : "pencil.circle")
-                                    .foregroundColor(.purple)
-                                    .imageScale(.large)
+                                Image(systemName: enableHideNotifs ? "eye.slash.circle.fill" : "eye.circle")
+                                .foregroundColor(.purple)
+                                .imageScale(.large)
                             Text("Hide Notification And Media Player Background").font(.headline)
                             }
                         }.frame(minWidth: 0, maxWidth: .infinity)
                         .foregroundColor(.purple)
+                        .tint(.purple)
                         
                         // Enable Dynamic Island
                         Toggle(isOn: $enableDynamicIsland) {
                             HStack(spacing: 20) {
-                                Image(systemName: enableDynamicIsland ? "pencil.circle.fill" : "pencil.circle")
-                                    .foregroundColor(.purple)
-                                    .imageScale(.large)
+                                Image(systemName: enableDynamicIsland ? "circle.hexagongrid.circle.fill" : "circle.hexagongrid.circle")
+                                .foregroundColor(.purple)
+                                .imageScale(.large)
                             Text("Enable dynamic island").font(.headline)
                             }
                         }.frame(minWidth: 0, maxWidth: .infinity)
                         .foregroundColor(.purple)
+                        .tint(.purple)
                         
                         // Enable Custom System Colors
                         Toggle(isOn: $enableCustomSysColors) {
@@ -149,6 +164,7 @@ struct ContentView: View {
                             }
                         }.frame(minWidth: 0, maxWidth: .infinity)
                         .foregroundColor(.purple)
+                        .tint(.purple)
                         
                         // Region Changer
                         Toggle(isOn: $changeRegion) {
@@ -160,37 +176,71 @@ struct ContentView: View {
                             }
                         }.frame(minWidth: 0, maxWidth: .infinity)
                         .foregroundColor(.purple)
+                        .tint(.purple)
+                        
+                        // Whitelist
+                        Toggle(isOn: $whitelist) {
+                            HStack(spacing: 20) {
+                                Image(systemName: whitelist ? "slash.circle.fill" : "slash.circle")
+                                    .foregroundColor(.purple)
+                                    .imageScale(.large)
+                            Text("Whitelist (Test)").font(.headline)
+                            }
+                        }.frame(minWidth: 0, maxWidth: .infinity)
+                        .foregroundColor(.purple)
+                        .tint(.purple)
+                        
+                        // Supervise
+                        Toggle(isOn: $supervise) {
+                            HStack(spacing: 20) {
+                                Image(systemName: supervise ? "eye.slash.circle.fill" : "eye.circle")
+                                    .foregroundColor(.purple)
+                                    .imageScale(.large)
+                            Text("Supervise device").font(.headline)
+                            }
+                        }.frame(minWidth: 0, maxWidth: .infinity)
+                        .foregroundColor(.purple)
+                        .tint(.purple)
                         
                         Spacer()
-                    
-                        Button("Apply Tweaks & Respring") {
-                                puafPages = puafPagesOptions[puafPagesIndex]
-                                kfd = do_kopen(UInt64(puafPages), UInt64(puafMethod), UInt64(kreadMethod), UInt64(kwriteMethod), extra_checks)
-                                if (kfd != 0) {
-                                    let tweaks = enabledTweaks()
-                                    var cTweaks: [UnsafeMutablePointer<CChar>?] = tweaks.map { strdup($0) }
-                                    cTweaks.append(nil)
-                                    cTweaks.withUnsafeMutableBufferPointer { buffer in
-                                        do_fun(buffer.baseAddress, Int32(buffer.count - 1), Int32(res_y), Int32(res_x))
-                                    }
-                                    cTweaks.forEach { free($0) }
-                                    do_kclose()
-                                    backboard_respring()
-                                } else {
-                                    errorAlert = true
-                                }
-                            }.frame(minWidth: 0, maxWidth: .infinity)
-                            .foregroundColor(.purple)
-                            .alert(isPresented: $errorAlert) {
-                                Alert(
-                                    title: Text("Device Unsupported"),
-                                    message: Text("Try without extra checks?")
-                                )
-                            }
                         
+                        Button(action: {
+                            puafPages = puafPagesOptions[puafPagesIndex]
+                            kfd = do_kopen(UInt64(puafPages), UInt64(puafMethod), UInt64(kreadMethod), UInt64(kwriteMethod), extra_checks)
+                            if (kfd != 0) {
+                                let tweaks = enabledTweaks()
+                                var cTweaks: [UnsafeMutablePointer<CChar>?] = tweaks.map { strdup($0) }
+                                cTweaks.append(nil)
+                                cTweaks.withUnsafeMutableBufferPointer { buffer in
+                                    do_fun(buffer.baseAddress, Int32(buffer.count - 1), Int32(res_y), Int32(res_x))
+                                }
+                                cTweaks.forEach { free($0) }
+                                do_kclose()
+                                backboard_respring()
+                            } else {
+                                errorAlert = true
+                            }
+                        }) {
+                            Text("Apply Tweaks & Respring")
+                                .foregroundColor(.purple) // Outline color
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(Color.purple, lineWidth: 2) // Outline style
+                                )
+                        }.background(.black).alert(isPresented: $errorAlert) {
+                            Alert(
+                                title: Text("Device Unsupported"),
+                                message: Text("Try without extra checks?")
+                            )
+                        }
                     }
-                    .listRowBackground(Color.clear)
+                    .background(Color.clear).listRowBackground(Color.clear).foregroundColor(.purple.opacity(0.7))
+                    
+                    
                 }
+                .background(Color.black)
                 .navigationBarTitle("SimpleKFD", displayMode: .inline)
                 .navigationBarItems(trailing: navigationLink)
             }
@@ -244,6 +294,12 @@ struct ContentView: View {
             if changeRegion {
                 enabledTweaks.append("changeRegion")
             }
+            if whitelist {
+                enabledTweaks.append("whitelist")
+            }
+            if supervise {
+                enabledTweaks.append("supervise")
+            }
 
             return enabledTweaks
         }
@@ -281,44 +337,44 @@ struct SettingsView: View {
                     ForEach(0 ..< puafPagesOptions.count, id: \.self) {
                         Text(String(self.puafPagesOptions[$0]))
                     }
-                }
+                }.tint(.purple).foregroundColor(.purple)
 
                 Picker("puaf method:", selection: $puafMethod) {
                     ForEach(0 ..< puafMethodOptions.count, id: \.self) {
                         Text(self.puafMethodOptions[$0])
                     }
-                }
+                }.tint(.purple).foregroundColor(.purple)
 
                 Picker("kread method:", selection: $kreadMethod) {
                     ForEach(0 ..< kreadMethodOptions.count, id: \.self) {
                         Text(self.kreadMethodOptions[$0])
                     }
-                }
+                }.tint(.purple).foregroundColor(.purple)
 
                 Picker("kwrite method:", selection: $kwriteMethod) {
                     ForEach(0 ..< kwriteMethodOptions.count, id: \.self) {
                         Text(self.kwriteMethodOptions[$0])
                     }
-                }
+                }.tint(.purple).foregroundColor(.purple)
                 
                 Toggle(isOn: $extra_checks) {
                     Text("extra offset checks")
-                }
-            }
+                }.tint(.purple).foregroundColor(.purple)
+            }.background(Color.clear).listRowBackground(Color.clear).foregroundColor(.purple.opacity(0.7))
             
             Section(header: Text("Resolution")) {
-                Text("Resolution Width:")
+                Text("Resolution Width:").tint(.purple).foregroundColor(.purple)
                 TextField("Resolution Width", value: $res_x, formatter: NumberFormatter())
-                Text("Resolution Height:")
-                TextField("Resolution Height", value: $res_y, formatter: NumberFormatter())
-            }
+                Text("Resolution Height:").tint(.purple).foregroundColor(.purple)
+                TextField("Resolution Height", value: $res_y, formatter: NumberFormatter()).tint(.purple).foregroundColor(.purple)
+            }.background(Color.clear).listRowBackground(Color.clear).foregroundColor(.purple.opacity(0.7))
             
             Section(header: Text("Dynamic Island")) {
                 Picker("Original SubType:", selection: $ogDynamicOptions_sel) {
                     ForEach(0 ..< ogDynamicOptions.count, id: \.self) {
                         Text(self.ogDynamicOptions[$0])
                     }
-                }
+                }.tint(.purple).foregroundColor(.purple)
                 Button("Revert SubType") {
                     puafPages = puafPagesOptions[puafPagesIndex]
                     kfd = do_kopen(UInt64(puafPages), UInt64(puafMethod), UInt64(kreadMethod), UInt64(kwriteMethod), extra_checks)
@@ -341,31 +397,56 @@ struct SettingsView: View {
                         message: Text("Try without extra checks?")
                     )
                 }
-            }
+            }.background(Color.clear).listRowBackground(Color.clear).foregroundColor(.purple.opacity(0.7))
+            
+            Section(header: Text("Other tweaks")) {
+                Button("Unsupervise") {
+                    puafPages = puafPagesOptions[puafPagesIndex]
+                    kfd = do_kopen(UInt64(puafPages), UInt64(puafMethod), UInt64(kreadMethod), UInt64(kwriteMethod), extra_checks)
+                    if (kfd != 0) {
+                        supervised(false)
+                        do_kclose()
+                        backboard_respring()
+                    } else {
+                        errorAlert = true
+                    }
+                }.frame(minWidth: 0, maxWidth: .infinity)
+                .foregroundColor(.purple)
+                .alert(isPresented: $errorAlert) {
+                    Alert(
+                        title: Text("Device Unsupported"),
+                        message: Text("Try without extra checks?")
+                    )
+                }
+            }.background(Color.clear).listRowBackground(Color.clear).foregroundColor(.purple.opacity(0.7))
             
             Section(header: Text("Extras")) {
                 Button(action: {
                     respring()
                 }) {
                     Text("Respring")
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(.purple)
-                    .cornerRadius(10)
+                        .foregroundColor(.purple) // Outline color
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.purple, lineWidth: 2) // Outline style
+                        )
                 }
                 
                 Button(action: {
                     backboard_respring()
                 }) {
                     Text("Backboard Respring")
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(.purple)
-                    .cornerRadius(10)
+                        .foregroundColor(.purple) // Outline color
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.purple, lineWidth: 2) // Outline style
+                        )
                 }
-            }
+            }.background(Color.clear).listRowBackground(Color.clear).foregroundColor(.purple.opacity(0.7))
         }.navigationBarTitle("Settings", displayMode: .inline)
     }
 }

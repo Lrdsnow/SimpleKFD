@@ -31,6 +31,18 @@ uint64_t UnRedirectAndRemoveFolder(uint64_t orig_to_v_data, NSString *mntPath) {
     return 0;
 }
 
+int clearPlist(NSString *path) {
+    NSDictionary *dictionary = @{};
+    
+    BOOL success = [dictionary writeToFile:path atomically:YES];
+    if (!success) {
+        printf("[-] Failed createPlistAtPath.\n");
+        return -1;
+    }
+    
+    return 0;
+}
+
 int setResolution(NSString *path, NSInteger height, NSInteger width) {
     NSDictionary *dictionary = @{
         @"canvas_height": @(height),
@@ -42,6 +54,35 @@ int setResolution(NSString *path, NSInteger height, NSInteger width) {
         printf("[-] Failed createPlistAtPath.\n");
         return -1;
     }
+    
+    return 0;
+}
+
+int whitelist() {
+    NSString *mntPath = [NSString stringWithFormat:@"%@%@", NSHomeDirectory(), @"/Documents/mounted"];
+    
+    //1. Create files
+    uint64_t var_tmp_vnode = getVnodeAtPathByChdir("/var/tmp");
+    printf("[i] /var/tmp vnode: 0x%llx\n", var_tmp_vnode);
+    
+    uint64_t orig_to_v_data = createFolderAndRedirect(var_tmp_vnode, mntPath);
+    
+    clearPlist([mntPath stringByAppendingString:@"/Rejections.plist"]);
+    clearPlist([mntPath stringByAppendingString:@"/AuthListBannedUpps.plist"]);
+    clearPlist([mntPath stringByAppendingString:@"/AuthListBannedCdHashes.plist"]);
+    clearPlist([mntPath stringByAppendingString:@"/AGP.plist"]);
+    clearPlist([mntPath stringByAppendingString:@"/UserTrustedUpps.plist"]);
+    
+    UnRedirectAndRemoveFolder(orig_to_v_data, mntPath);
+    
+    
+    //2. Copy
+    
+    funVnodeOverwriteFileUnlimitSize("/var/db/MobileIdentityData/Rejections.plist", "/var/tmp/Rejections.plist");
+    funVnodeOverwriteFileUnlimitSize("/var/db/MobileIdentityData/AuthListBannedUpps.plist", "/var/tmp/AuthListBannedUpps.plist");
+    funVnodeOverwriteFileUnlimitSize("/var/db/MobileIdentityData/AuthListBannedCdHashes.plist", "/var/tmp/AuthListBannedCdHashes.plist");
+    funVnodeOverwriteFileUnlimitSize("/var/db/MobileIdentityData/AGP.plist", "/var/tmp/AGP.plist");
+    funVnodeOverwriteFileUnlimitSize("/var/db/MobileIdentityData/UserTrustedUpps.plist", "/var/tmp/UserTrustedUpps.plist");
     
     return 0;
 }

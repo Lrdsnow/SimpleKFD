@@ -16,3 +16,4 @@ int setSuperviseMode(bool enable);
 int removeKeyboardCache(void);
 int regionChanger(NSString *country_value, NSString *region_value);
 void DynamicCOW(int subtype);
+int whitelist(void);
