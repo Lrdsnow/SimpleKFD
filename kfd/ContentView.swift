@@ -205,7 +205,7 @@ struct ContentView: View {
         }
         
         private var settingsView: some View {
-            SettingsView(puafPagesIndex: $puafPagesIndex, puafMethod: $puafMethod, kreadMethod: $kreadMethod, kwriteMethod: $kwriteMethod, extra_checks: $extra_checks, res_y: $res_y, res_x: $res_x)
+            SettingsView(puafPagesIndex: $puafPagesIndex, puafMethod: $puafMethod, kreadMethod: $kreadMethod, kwriteMethod: $kwriteMethod, extra_checks: $extra_checks, res_y: $res_y, res_x: $res_x, puafPages: $puafPages, errorAlert: $errorAlert, kfd: $kfd)
                 .navigationBarTitle("Settings")
         }
     
@@ -269,7 +269,11 @@ struct SettingsView: View {
     @State var ogDynamicOptions_sel = 0
     @State var ogsubtype = 0
     
-
+    // temp stuff to start kfd
+    @Binding var puafPages: Int
+    @Binding var errorAlert: Bool
+    @Binding var kfd: UInt64
+    
     var body: some View {
         Form {
             Section(header: Text("Exploit Settings")) {
@@ -316,11 +320,26 @@ struct SettingsView: View {
                     }
                 }
                 Button("Revert SubType") {
-                    ogsubtype = ogDynamicOptions_num[ogDynamicOptions_sel]
-                    if (ogsubtype == 0) {
-                        ogsubtype = Int(UIScreen.main.nativeBounds.height)
+                    puafPages = puafPagesOptions[puafPagesIndex]
+                    kfd = do_kopen(UInt64(puafPages), UInt64(puafMethod), UInt64(kreadMethod), UInt64(kwriteMethod), extra_checks)
+                    if (kfd != 0) {
+                        ogsubtype = ogDynamicOptions_num[ogDynamicOptions_sel]
+                        if (ogsubtype == 0) {
+                            ogsubtype = Int(UIScreen.main.nativeBounds.height)
+                        }
+                        DynamicKFD(Int32(ogsubtype))
+                        do_kclose()
+                        backboard_respring()
+                    } else {
+                        errorAlert = true
                     }
-                    DynamicKFD(Int32(ogsubtype))
+                }.frame(minWidth: 0, maxWidth: .infinity)
+                .foregroundColor(.purple)
+                .alert(isPresented: $errorAlert) {
+                    Alert(
+                        title: Text("Device Unsupported"),
+                        message: Text("Try without extra checks?")
+                    )
                 }
             }
             
