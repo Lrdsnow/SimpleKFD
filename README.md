@@ -5,7 +5,7 @@ Tweaks:
 - Hide Homebar
 - Hide Dock
 - Enable 14 Pro Max Resoluton
-- Enable 14 Pro Max Dynamic Island
+- Enable 14 Pro Max Dynamic Island (iOS 16 only)
 - Change the Font to a hardcoded one
 - Custom CC Icons
 - Custom Lockscreen Icons
