@@ -44,7 +44,9 @@
 const char info_copy_sentinel[] = "p0up0u was here";
 const u64 info_copy_sentinel_size = sizeof(info_copy_sentinel);
 
-void info_init(struct kfd* kfd)
+
+
+bool info_init(struct kfd* kfd, bool extra_checks)
 {
     /*
      * Initialize the kfd->info.copy substructure.
@@ -91,16 +93,52 @@ void info_init(struct kfd* kfd)
     for (u64 i = 0; i < number_of_kern_versions; i++) {
         const char* current_kern_version = kern_versions[i].kern_version;
         if (!memcmp(kfd->info.env.kern_version, current_kern_version, strlen(current_kern_version))) {
-            kfd->info.env.vid = i;
-            print_u64(kfd->info.env.vid);
-            t1sz_boot = strstr(current_kern_version, "T8120") != NULL ? 17ull : 25ull;
-            return;
+            if (!extra_checks) {
+                kfd->info.env.vid = i;
+                print_u64(kfd->info.env.vid);
+                t1sz_boot = strstr(current_kern_version, "T8120") != NULL ? 17ull : 25ull;
+                return true;
+            } else {
+                // Setup variables
+                
+                int correct_board_id = 0;
+                int correct_osversion = 0;
+                
+                // Get offset values
+                const char* current_build_version = kern_versions[i].build_version;
+                const char* current_board_id = kern_versions[i].device_id;
+                
+                // Get Build Number
+                if (current_build_version != NULL) {
+                    usize size3 = sizeof(kfd->info.env.os_version);
+                    assert_bsd(sysctlbyname("kern.osversion", &kfd->info.env.os_version, &size3, NULL, 0));
+                    correct_osversion = strcmp(kfd->info.env.os_version, current_build_version);
+                }
+                
+                // Get Board ID
+                if (current_board_id != NULL) {
+                    usize size4 = sizeof(kfd->info.env.board_id);
+                    assert_bsd(sysctlbyname("hw.machine", &kfd->info.env.board_id, &size4, NULL, 0));
+                    correct_board_id = strcmp(kfd->info.env.board_id, current_board_id);
+                }
+                
+                // Apply:
+                if (correct_osversion == 0 && correct_board_id == 0) {
+                    kfd->info.env.vid = i;
+                    t1sz_boot = strstr(current_kern_version, "T8120") != NULL ? 17ull : 25ull;
+                    return true;
+                }
+            }
         }
     }
     kfd->info.env.vid = 0;
     print_u64(kfd->info.env.vid);
-    return;
-//    assert_false("unsupported osversion");
+    if (extra_checks) {
+        assert_false("Unsupported Device, Try without extra checks");
+    } else {
+        assert_false("Unsupported iOS Version");
+    }
+    return false;
 }
 
 void info_run(struct kfd* kfd)

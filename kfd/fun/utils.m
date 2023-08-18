@@ -345,7 +345,7 @@ void hexdump(void *mem, unsigned int len)
         }
 }
 
-void DynamicCOW(void) {
+void DynamicCOW(int subtype) {
     _offsets_init();
     xpc_crasher("com.apple.mobilegestalt.xpc");
     uint64_t vnode = getVnodeAtPathByChdir("/var/containers/Shared/SystemGroup/systemgroup.com.apple.mobilegestaltcache/Library/Caches/");
@@ -372,7 +372,7 @@ void DynamicCOW(void) {
                 NSLog(@"key %@, value %@", key, value);
                 if ([key isEqualToString:@"oPeik/9e8lQWMszEjbPzng"]) {
                     printf("found key\n");
-                    [value setValue:[NSNumber numberWithInt:2556] forKey: @"ArtworkDeviceSubType"]; // 2532, 2556, 2796
+                    [value setValue:[NSNumber numberWithInt:subtype] forKey: @"ArtworkDeviceSubType"]; // 2532, 2556, 2796
                     *stop3 = true;
                 }
             }];

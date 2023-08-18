@@ -12,9 +12,9 @@
 
 uint64_t _kfd = 0;
 
-uint64_t do_kopen(uint64_t puaf_pages, uint64_t puaf_method, uint64_t kread_method, uint64_t kwrite_method)
+uint64_t do_kopen(uint64_t puaf_pages, uint64_t puaf_method, uint64_t kread_method, uint64_t kwrite_method, bool extra_checks)
 {
-    _kfd = kopen(puaf_pages, puaf_method, kread_method, kwrite_method);
+    _kfd = kopen(puaf_pages, puaf_method, kread_method, kwrite_method, extra_checks);
     return _kfd;
 }
 

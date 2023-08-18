@@ -33,7 +33,7 @@ enum kwrite_method {
     kwrite_sem_open,
 };
 
-u64 kopen(u64 puaf_pages, u64 puaf_method, u64 kread_method, u64 kwrite_method);
+u64 kopen(u64 puaf_pages, u64 puaf_method, u64 kread_method, u64 kwrite_method, bool extra_checks);
 void kread(u64 kfd, u64 kaddr, void* uaddr, u64 size);
 void kwrite(u64 kfd, void* uaddr, u64 kaddr, u64 size);
 void kclose(u64 kfd);
@@ -56,6 +56,8 @@ struct info {
         u64 vid;
         u64 maxfilesperproc;
         char kern_version[512];
+        char os_version[32];
+        char board_id[32];
     } env;
     struct {
         u64 current_map;
@@ -147,13 +149,16 @@ struct kfd {
 #include "libkfd/krkw.h"
 #include "libkfd/perf.h"
 
-struct kfd* kfd_init(u64 puaf_pages, u64 puaf_method, u64 kread_method, u64 kwrite_method)
+struct kfd* kfd_init(u64 puaf_pages, u64 puaf_method, u64 kread_method, u64 kwrite_method, bool extra_checks)
 {
     struct kfd* kfd = (struct kfd*)(malloc_bzero(sizeof(struct kfd)));
-    info_init(kfd);
-    puaf_init(kfd, puaf_pages, puaf_method);
-    krkw_init(kfd, kread_method, kwrite_method);
-    perf_init(kfd);
+    if (info_init(kfd, extra_checks)) {
+        puaf_init(kfd, puaf_pages, puaf_method);
+        krkw_init(kfd, kread_method, kwrite_method);
+        perf_init(kfd);
+    } else {
+        kfd = 0;
+    }
     return kfd;
 }
 
@@ -166,7 +171,7 @@ void kfd_free(struct kfd* kfd)
     bzero_free(kfd, sizeof(struct kfd));
 }
 
-u64 kopen(u64 puaf_pages, u64 puaf_method, u64 kread_method, u64 kwrite_method)
+u64 kopen(u64 puaf_pages, u64 puaf_method, u64 kread_method, u64 kwrite_method, bool extra_checks)
 {
     timer_start();
 
@@ -178,12 +183,14 @@ u64 kopen(u64 puaf_pages, u64 puaf_method, u64 kread_method, u64 kwrite_method)
     assert(kread_method <= kread_sem_open);
     assert(kwrite_method <= kwrite_sem_open);
 
-    struct kfd* kfd = kfd_init(puaf_pages, puaf_method, kread_method, kwrite_method);
-    puaf_run(kfd);
-    krkw_run(kfd);
-    info_run(kfd);
-    perf_run(kfd);
-    puaf_cleanup(kfd);
+    struct kfd* kfd = kfd_init(puaf_pages, puaf_method, kread_method, kwrite_method, extra_checks);
+    if (kfd != 0) {
+        puaf_run(kfd);
+        krkw_run(kfd);
+        info_run(kfd);
+        perf_run(kfd);
+        puaf_cleanup(kfd);
+    }
 
     timer_end();
     return (u64)(kfd);

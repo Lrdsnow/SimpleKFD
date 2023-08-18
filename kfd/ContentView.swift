@@ -16,6 +16,10 @@ struct ContentView: View {
     private let kwriteMethodOptions = ["dup", "sem_open"]
     @State private var kwriteMethod = 1
     
+    @State private var extra_checks = true
+    
+    @State private var errorAlert = false
+    
     @State private var res_y = 2796
     @State private var res_x = 1290
     
@@ -29,6 +33,7 @@ struct ContentView: View {
     @State private var hideLSIcons = false
     @State private var enableCustomSysColors = false
     @State private var enableDynamicIsland = false
+    @State private var changeRegion = false
 
     var body: some View {
         NavigationView {
@@ -60,10 +65,10 @@ struct ContentView: View {
                         // Resolution
                         Toggle(isOn: $enableResSet) {
                             HStack(spacing: 20) {
-                                Image(systemName: enableResSet ? "arrow.up.circle.fill" : "arrow.down.circle.fill")
+                                Image(systemName: enableResSet ? "arrowshape.up.circle.fill" : "arrowshape.up.circle")
                                     .foregroundColor(.purple)
                                     .imageScale(.large)
-                            Text("Enable 14 Pro Max Resolution").font(.headline)
+                            Text("Change Resolution").font(.headline)
                             }
                         }.frame(minWidth: 0, maxWidth: .infinity)
                         .foregroundColor(.purple)
@@ -145,22 +150,43 @@ struct ContentView: View {
                         }.frame(minWidth: 0, maxWidth: .infinity)
                         .foregroundColor(.purple)
                         
-                        Spacer()
+                        // Region Changer
+                        Toggle(isOn: $changeRegion) {
+                            HStack(spacing: 20) {
+                                Image(systemName: changeRegion ? "globe.americas.fill" : "globe.americas")
+                                    .foregroundColor(.purple)
+                                    .imageScale(.large)
+                            Text("Change Region").font(.headline)
+                            }
+                        }.frame(minWidth: 0, maxWidth: .infinity)
+                        .foregroundColor(.purple)
                         
+                        Spacer()
+                    
                         Button("Apply Tweaks & Respring") {
                                 puafPages = puafPagesOptions[puafPagesIndex]
-                                kfd = do_kopen(UInt64(puafPages), UInt64(puafMethod), UInt64(kreadMethod), UInt64(kwriteMethod))
-                                let tweaks = enabledTweaks()
-                                var cTweaks: [UnsafeMutablePointer<CChar>?] = tweaks.map { strdup($0) }
-                                cTweaks.append(nil)
-                                cTweaks.withUnsafeMutableBufferPointer { buffer in
-                                    do_fun(buffer.baseAddress, Int32(buffer.count - 1), res_y, res_x)
+                                kfd = do_kopen(UInt64(puafPages), UInt64(puafMethod), UInt64(kreadMethod), UInt64(kwriteMethod), extra_checks)
+                                if (kfd != 0) {
+                                    let tweaks = enabledTweaks()
+                                    var cTweaks: [UnsafeMutablePointer<CChar>?] = tweaks.map { strdup($0) }
+                                    cTweaks.append(nil)
+                                    cTweaks.withUnsafeMutableBufferPointer { buffer in
+                                        do_fun(buffer.baseAddress, Int32(buffer.count - 1), Int32(res_y), Int32(res_x))
+                                    }
+                                    cTweaks.forEach { free($0) }
+                                    do_kclose()
+                                    backboard_respring()
+                                } else {
+                                    errorAlert = true
                                 }
-                                cTweaks.forEach { free($0) }
-                                do_kclose()
-                                backboard_respring()
                             }.frame(minWidth: 0, maxWidth: .infinity)
                             .foregroundColor(.purple)
+                            .alert(isPresented: $errorAlert) {
+                                Alert(
+                                    title: Text("Device Unsupported"),
+                                    message: Text("Try without extra checks?")
+                                )
+                            }
                         
                     }
                     .listRowBackground(Color.clear)
@@ -179,7 +205,7 @@ struct ContentView: View {
         }
         
         private var settingsView: some View {
-            SettingsView(puafPagesIndex: $puafPagesIndex, puafMethod: $puafMethod, kreadMethod: $kreadMethod, kwriteMethod: $kwriteMethod, res_y: $res_y, res_x: $res_x)
+            SettingsView(puafPagesIndex: $puafPagesIndex, puafMethod: $puafMethod, kreadMethod: $kreadMethod, kwriteMethod: $kwriteMethod, extra_checks: $extra_checks, res_y: $res_y, res_x: $res_x)
                 .navigationBarTitle("Settings")
         }
     
@@ -215,6 +241,9 @@ struct ContentView: View {
             if enableDynamicIsland {
                 enabledTweaks.append("enableDynamicIsland")
             }
+            if changeRegion {
+                enabledTweaks.append("changeRegion")
+            }
 
             return enabledTweaks
         }
@@ -225,6 +254,7 @@ struct SettingsView: View {
     @Binding var puafMethod: Int
     @Binding var kreadMethod: Int
     @Binding var kwriteMethod: Int
+    @Binding var extra_checks: Bool
     @Binding var res_y: Int
     @Binding var res_x: Int
 
@@ -232,6 +262,13 @@ struct SettingsView: View {
     private let puafMethodOptions = ["physpuppet", "smith"]
     private let kreadMethodOptions = ["kqueue_workloop_ctl", "sem_open"]
     private let kwriteMethodOptions = ["dup", "sem_open"]
+    
+    // Dyanmic Island Stuff
+    private let ogDynamicOptions = ["Auto (iPhone X-14)", "569 (iPhone 8/SE2/SE3)", "570 (iPhone 8+)"]
+    @State var ogDynamicOptions_num = [0, 569, 570]
+    @State var ogDynamicOptions_sel = 0
+    @State var ogsubtype = 0
+    
 
     var body: some View {
         Form {
@@ -259,13 +296,32 @@ struct SettingsView: View {
                         Text(self.kwriteMethodOptions[$0])
                     }
                 }
+                
+                Toggle(isOn: $extra_checks) {
+                    Text("extra offset checks")
+                }
             }
             
-            Section(header: Text("Tweak Settings")) {
+            Section(header: Text("Resolution")) {
                 Text("Resolution Width:")
                 TextField("Resolution Width", value: $res_x, formatter: NumberFormatter())
                 Text("Resolution Height:")
                 TextField("Resolution Height", value: $res_y, formatter: NumberFormatter())
+            }
+            
+            Section(header: Text("Dynamic Island")) {
+                Picker("Original SubType:", selection: $ogDynamicOptions_sel) {
+                    ForEach(0 ..< ogDynamicOptions.count, id: \.self) {
+                        Text(self.ogDynamicOptions[$0])
+                    }
+                }
+                Button("Revert SubType") {
+                    ogsubtype = ogDynamicOptions_num[ogDynamicOptions_sel]
+                    if (ogsubtype == 0) {
+                        ogsubtype = Int(UIScreen.main.nativeBounds.height)
+                    }
+                    DynamicKFD(Int32(ogsubtype))
+                }
             }
             
             Section(header: Text("Extras")) {
@@ -291,8 +347,7 @@ struct SettingsView: View {
                     .cornerRadius(10)
                 }
             }
-        }
-        .navigationBarTitle("Settings", displayMode: .inline)
+        }.navigationBarTitle("Settings", displayMode: .inline)
     }
 }
 

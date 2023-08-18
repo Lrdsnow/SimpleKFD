@@ -117,9 +117,6 @@ typedef uintptr_t usize;
         if (!(condition)) {                                             \
             print_failure("assertion failed: (%s)", #condition);        \
             print_failure("file: %s, line: %d", __FILE__, __LINE__);    \
-            print_failure("... sleep(30) before exit(1) ...");          \
-            sleep(30);                                                  \
-            exit(1);                                                    \
         }                                                               \
     } while (0)
 
@@ -129,11 +126,13 @@ typedef uintptr_t usize;
 
 #endif /* CONFIG_ASSERT */
 
-#define assert_false(message)                   \
-    do {                                        \
-        print_failure("error: %s", message);    \
-        assert(false);                          \
+#define assert_false(message)                               \
+    do {                                                    \
+        print_failure("error: %s", message);                \
+        assert(false);                                      \
     } while (0)
+
+
 
 #define assert_bsd(statement)                                                                        \
     do {                                                                                             \

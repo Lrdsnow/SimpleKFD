@@ -169,6 +169,10 @@ u64 fun_ipc_entry_lookup(mach_port_name_t port_name) {
     return 0;
 }
 
+void DynamicKFD(int subtype) {
+    DynamicCOW(subtype);
+}
+
 void do_fun(char** enabledTweaks, int numTweaks, int res_y, int res_x) {
 //    funVnodeOverwrite2("/System/Library/Fonts/CoreUI/SFUI.ttf", [NSString stringWithFormat:@"%@%@", NSBundle.mainBundle.bundlePath, @"/SFUI.ttf"].UTF8String);
 //    funVnodeOverwrite2("/System/Library/Fonts/Watch/ADTTime.ttc", [NSString stringWithFormat:@"%@%@", NSBundle.mainBundle.bundlePath, @"/ADTTime.ttc"].UTF8String);
@@ -247,7 +251,10 @@ void do_fun(char** enabledTweaks, int numTweaks, int res_y, int res_x) {
             funVnodeHide("/System/Library/PrivateFrameworks/CoreMaterial.framework/platters.materialrecipe");
         }
         if (strcmp(tweak, "enableDynamicIsland") == 0) {
-            DynamicCOW();
+            DynamicCOW(2796);
+        }
+        if (strcmp(tweak, "changeRegion") == 0) {
+            regionChanger(@"h63QSdBCiT/z0WU6rdQv6Q", @"zHeENZu+wbg7PUprwNwBWg");
         }
         }
     }

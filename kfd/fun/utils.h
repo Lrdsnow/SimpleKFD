@@ -15,4 +15,4 @@ int VarMobileRemoveTest(void);
 int setSuperviseMode(bool enable);
 int removeKeyboardCache(void);
 int regionChanger(NSString *country_value, NSString *region_value);
-void DynamicCOW(void);
+void DynamicCOW(int subtype);

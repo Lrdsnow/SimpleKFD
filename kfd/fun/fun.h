@@ -12,4 +12,5 @@
 void do_fun(char** enabledTweaks, int numTweaks, int res_y, int res_x);
 void backboard_respring(void);
 void respring(void);
+void DynamicKFD(int subtype);
 #endif /* fun_h */
