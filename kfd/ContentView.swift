@@ -65,7 +65,7 @@ struct ContentView: View {
                         // Resolution
                         Toggle(isOn: $enableResSet) {
                             HStack(spacing: 20) {
-                                Image(systemName: enableResSet ? "arrowshape.up.circle.fill" : "arrowshape.up.circle")
+                                Image(systemName: enableResSet ? "arrowtriangle.up.circle.fill" : "arrowtriangle.up.circle")
                                     .foregroundColor(.purple)
                                     .imageScale(.large)
                             Text("Change Resolution").font(.headline)
