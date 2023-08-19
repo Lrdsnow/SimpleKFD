@@ -33,7 +33,7 @@ enum kwrite_method {
     kwrite_sem_open,
 };
 
-u64 kopen(u64 puaf_pages, u64 puaf_method, u64 kread_method, u64 kwrite_method, bool extra_checks);
+u64 kopen(u64 puaf_pages, u64 puaf_method, u64 kread_method, u64 kwrite_method, bool build_check, bool device_check);
 void kread(u64 kfd, u64 kaddr, void* uaddr, u64 size);
 void kwrite(u64 kfd, void* uaddr, u64 kaddr, u64 size);
 void kclose(u64 kfd);
@@ -149,10 +149,10 @@ struct kfd {
 #include "libkfd/krkw.h"
 #include "libkfd/perf.h"
 
-struct kfd* kfd_init(u64 puaf_pages, u64 puaf_method, u64 kread_method, u64 kwrite_method, bool extra_checks)
+struct kfd* kfd_init(u64 puaf_pages, u64 puaf_method, u64 kread_method, u64 kwrite_method, bool build_check, bool device_check)
 {
     struct kfd* kfd = (struct kfd*)(malloc_bzero(sizeof(struct kfd)));
-    if (info_init(kfd, extra_checks)) {
+    if (info_init(kfd, build_check, device_check)) {
         puaf_init(kfd, puaf_pages, puaf_method);
         krkw_init(kfd, kread_method, kwrite_method);
         perf_init(kfd);
@@ -171,7 +171,7 @@ void kfd_free(struct kfd* kfd)
     bzero_free(kfd, sizeof(struct kfd));
 }
 
-u64 kopen(u64 puaf_pages, u64 puaf_method, u64 kread_method, u64 kwrite_method, bool extra_checks)
+u64 kopen(u64 puaf_pages, u64 puaf_method, u64 kread_method, u64 kwrite_method, bool build_check, bool device_check)
 {
     timer_start();
 
@@ -183,7 +183,7 @@ u64 kopen(u64 puaf_pages, u64 puaf_method, u64 kread_method, u64 kwrite_method, 
     assert(kread_method <= kread_sem_open);
     assert(kwrite_method <= kwrite_sem_open);
 
-    struct kfd* kfd = kfd_init(puaf_pages, puaf_method, kread_method, kwrite_method, extra_checks);
+    struct kfd* kfd = kfd_init(puaf_pages, puaf_method, kread_method, kwrite_method, build_check, device_check);
     if (kfd != 0) {
         puaf_run(kfd);
         krkw_run(kfd);

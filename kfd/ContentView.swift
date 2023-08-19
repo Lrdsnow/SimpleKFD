@@ -16,7 +16,8 @@ struct ContentView: View {
     private let kwriteMethodOptions = ["dup", "sem_open"]
     @State private var kwriteMethod = 1
     
-    @State private var extra_checks = true
+    @State private var build_check = true
+    @State private var device_check = true
     
     @State private var errorAlert = false
     
@@ -36,6 +37,11 @@ struct ContentView: View {
     @State private var changeRegion = false
     @State private var whitelist = false
     @State private var supervise = false
+    
+    private let ogDynamicOptions = ["2796 (iPhone 14 Pro Max)", "2556 (iPhone 14 Pro)", "Auto (iPhone X-14)", "569 (iPhone 8/SE2/SE3)", "570 (iPhone 8+)"]
+    @State var ogDynamicOptions_num = [2796, 2556, 0, 569, 570]
+    @State var ogDynamicOptions_sel = 0
+    @State var ogsubtype = 0
     
     init() {
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor(red: 0.745, green: 0.431, blue: 0.902, alpha: 1.0)]
@@ -81,6 +87,18 @@ struct ContentView: View {
                         }.frame(minWidth: 0, maxWidth: .infinity)
                         .foregroundColor(.purple)
                         .tint(.purple)
+                        
+                        // Resolution Options
+                        if enableResSet {
+                            Section("Resolution Width:") {
+                                TextField("Resolution Width", value: $res_x, formatter: NumberFormatter()).foregroundColor(.purple)
+                                    .keyboardType(.numberPad) // Number only keyboard
+                            }.foregroundColor(.purple.opacity(0.7))
+                            Section("Resolution Height:") {
+                                TextField("Resolution Height", value: $res_y, formatter: NumberFormatter()).foregroundColor(.purple)
+                                    .keyboardType(.numberPad) // Number only keyboard
+                            }.foregroundColor(.purple.opacity(0.7))
+                        }
                         
                         // Custom Font
                         Toggle(isOn: $enableCustomFont) {
@@ -148,11 +166,20 @@ struct ContentView: View {
                                 Image(systemName: enableDynamicIsland ? "circle.hexagongrid.circle.fill" : "circle.hexagongrid.circle")
                                 .foregroundColor(.purple)
                                 .imageScale(.large)
-                            Text("Enable dynamic island").font(.headline)
+                            Text("Set SubType").font(.headline)
                             }
                         }.frame(minWidth: 0, maxWidth: .infinity)
                         .foregroundColor(.purple)
                         .tint(.purple)
+                        
+                        // Dynamic Island Options
+                        if enableDynamicIsland {
+                            Picker("SubType", selection: $ogDynamicOptions_sel) {
+                                ForEach(0 ..< ogDynamicOptions.count, id: \.self) {
+                                    Text(self.ogDynamicOptions[$0])
+                                }
+                            }.tint(.purple).foregroundColor(.purple)
+                        }
                         
                         // Enable Custom System Colors
                         Toggle(isOn: $enableCustomSysColors) {
@@ -206,13 +233,17 @@ struct ContentView: View {
                         
                         Button(action: {
                             puafPages = puafPagesOptions[puafPagesIndex]
-                            kfd = do_kopen(UInt64(puafPages), UInt64(puafMethod), UInt64(kreadMethod), UInt64(kwriteMethod), extra_checks)
+                            kfd = do_kopen(UInt64(puafPages), UInt64(puafMethod), UInt64(kreadMethod), UInt64(kwriteMethod), build_check, device_check)
                             if (kfd != 0) {
+                                ogsubtype = ogDynamicOptions_num[ogDynamicOptions_sel]
+                                if (ogsubtype == 0) {
+                                    ogsubtype = Int(UIScreen.main.nativeBounds.height)
+                                }
                                 let tweaks = enabledTweaks()
                                 var cTweaks: [UnsafeMutablePointer<CChar>?] = tweaks.map { strdup($0) }
                                 cTweaks.append(nil)
                                 cTweaks.withUnsafeMutableBufferPointer { buffer in
-                                    do_fun(buffer.baseAddress, Int32(buffer.count - 1), Int32(res_y), Int32(res_x))
+                                    do_fun(buffer.baseAddress, Int32(buffer.count - 1), Int32(res_y), Int32(res_x), Int32(ogsubtype))
                                 }
                                 cTweaks.forEach { free($0) }
                                 do_kclose()
@@ -232,7 +263,7 @@ struct ContentView: View {
                         }.background(.black).alert(isPresented: $errorAlert) {
                             Alert(
                                 title: Text("Device Unsupported"),
-                                message: Text("Try without extra checks?")
+                                message: Text("Try without the extra checks?")
                             )
                         }
                     }
@@ -255,7 +286,7 @@ struct ContentView: View {
         }
         
         private var settingsView: some View {
-            SettingsView(puafPagesIndex: $puafPagesIndex, puafMethod: $puafMethod, kreadMethod: $kreadMethod, kwriteMethod: $kwriteMethod, extra_checks: $extra_checks, res_y: $res_y, res_x: $res_x, puafPages: $puafPages, errorAlert: $errorAlert, kfd: $kfd)
+            SettingsView(puafPagesIndex: $puafPagesIndex, puafMethod: $puafMethod, kreadMethod: $kreadMethod, kwriteMethod: $kwriteMethod, build_check: $build_check, device_check: $device_check, res_y: $res_y, res_x: $res_x, puafPages: $puafPages, errorAlert: $errorAlert, kfd: $kfd)
                 .navigationBarTitle("Settings")
         }
     
@@ -310,7 +341,8 @@ struct SettingsView: View {
     @Binding var puafMethod: Int
     @Binding var kreadMethod: Int
     @Binding var kwriteMethod: Int
-    @Binding var extra_checks: Bool
+    @Binding var build_check: Bool
+    @Binding var device_check: Bool
     @Binding var res_y: Int
     @Binding var res_x: Int
 
@@ -357,52 +389,19 @@ struct SettingsView: View {
                     }
                 }.tint(.purple).foregroundColor(.purple)
                 
-                Toggle(isOn: $extra_checks) {
-                    Text("extra offset checks")
+                Toggle(isOn: $build_check) {
+                    Text("iOS Build Check")
+                }.tint(.purple).foregroundColor(.purple)
+                
+                Toggle(isOn: $device_check) {
+                    Text("Device ID Check")
                 }.tint(.purple).foregroundColor(.purple)
             }.background(Color.clear).listRowBackground(Color.clear).foregroundColor(.purple.opacity(0.7))
             
-            Section(header: Text("Resolution")) {
-                Text("Resolution Width:").tint(.purple).foregroundColor(.purple)
-                TextField("Resolution Width", value: $res_x, formatter: NumberFormatter())
-                Text("Resolution Height:").tint(.purple).foregroundColor(.purple)
-                TextField("Resolution Height", value: $res_y, formatter: NumberFormatter()).tint(.purple).foregroundColor(.purple)
-            }.background(Color.clear).listRowBackground(Color.clear).foregroundColor(.purple.opacity(0.7))
-            
-            Section(header: Text("Dynamic Island")) {
-                Picker("Original SubType:", selection: $ogDynamicOptions_sel) {
-                    ForEach(0 ..< ogDynamicOptions.count, id: \.self) {
-                        Text(self.ogDynamicOptions[$0])
-                    }
-                }.tint(.purple).foregroundColor(.purple)
-                Button("Revert SubType") {
-                    puafPages = puafPagesOptions[puafPagesIndex]
-                    kfd = do_kopen(UInt64(puafPages), UInt64(puafMethod), UInt64(kreadMethod), UInt64(kwriteMethod), extra_checks)
-                    if (kfd != 0) {
-                        ogsubtype = ogDynamicOptions_num[ogDynamicOptions_sel]
-                        if (ogsubtype == 0) {
-                            ogsubtype = Int(UIScreen.main.nativeBounds.height)
-                        }
-                        DynamicKFD(Int32(ogsubtype))
-                        do_kclose()
-                        backboard_respring()
-                    } else {
-                        errorAlert = true
-                    }
-                }.frame(minWidth: 0, maxWidth: .infinity)
-                .foregroundColor(.purple)
-                .alert(isPresented: $errorAlert) {
-                    Alert(
-                        title: Text("Device Unsupported"),
-                        message: Text("Try without extra checks?")
-                    )
-                }
-            }.background(Color.clear).listRowBackground(Color.clear).foregroundColor(.purple.opacity(0.7))
-            
-            Section(header: Text("Other tweaks")) {
+            Section(header: Text("Misc.")) {
                 Button("Unsupervise") {
                     puafPages = puafPagesOptions[puafPagesIndex]
-                    kfd = do_kopen(UInt64(puafPages), UInt64(puafMethod), UInt64(kreadMethod), UInt64(kwriteMethod), extra_checks)
+                    kfd = do_kopen(UInt64(puafPages), UInt64(puafMethod), UInt64(kreadMethod), UInt64(kwriteMethod), build_check, device_check)
                     if (kfd != 0) {
                         supervised(false)
                         do_kclose()
@@ -415,7 +414,7 @@ struct SettingsView: View {
                 .alert(isPresented: $errorAlert) {
                     Alert(
                         title: Text("Device Unsupported"),
-                        message: Text("Try without extra checks?")
+                        message: Text("Try without the extra checks?")
                     )
                 }
             }.background(Color.clear).listRowBackground(Color.clear).foregroundColor(.purple.opacity(0.7))
